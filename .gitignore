@@ -1,3 +1,6 @@
 *.exe
+*~
 
-/anagrams.*/
+/anagrams.*
+/.idea/
+/venv/

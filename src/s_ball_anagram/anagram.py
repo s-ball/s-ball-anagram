@@ -47,6 +47,7 @@ def main():
         ref = set(tuple(w.strip().upper()) for w in
                   open(d/'dict-fr-AU-DELA-common-words.ascii'))
     except OSError:
+        print(f'Dossier dictionnaire vide : {d}')
         ref = None
     while True:
         mot = input('Lettres : ')
