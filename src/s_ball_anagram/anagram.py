@@ -1,10 +1,21 @@
-from itertools import permutations as pr
-from dataclasses import dataclass
-from pathlib import Path
 import sys
+from dataclasses import dataclass
+from itertools import permutations as pr
+from pathlib import Path
 
+import unicodedata
 
 ref = None
+
+
+def clean(s: str) -> str:
+    """Filter out any diacritics from a string.
+
+    It uses the Unicode normal form KD to decompose each character to its
+    compatibility version, and then filter out non alpha characters.
+    """
+    k = unicodedata.normalize('NFKD', s)
+    return ''.join(i for i in k if i.isalpha())
 
 
 @dataclass
@@ -25,7 +36,7 @@ class Jardin:
     def process(self):
         while True:
             hint = input('A rechercher (_ pour une position vide. Exemple _A_) : ')
-            hint = hint.strip().upper()
+            hint = clean(hint).upper()
             x = hint.split()
             if len(x) == 0:
                 break
@@ -51,7 +62,7 @@ def main():
         ref = None
     while True:
         mot = input('Lettres : ')
-        mot = mot.upper().strip()
+        mot = clean(mot).upper()
         if len(mot) == 0:
             break
         j = Jardin(mot)
