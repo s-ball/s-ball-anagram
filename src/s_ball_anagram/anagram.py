@@ -15,7 +15,7 @@ def clean(s: str) -> str:
     compatibility version, and then filter out non alpha characters.
     """
     k = unicodedata.normalize('NFKD', s)
-    return ''.join(i for i in k if i.isalpha())
+    return ''.join(i for i in k if (i == '_' or i.isalpha()))
 
 
 @dataclass
