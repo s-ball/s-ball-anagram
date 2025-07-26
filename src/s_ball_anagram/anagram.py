@@ -2,6 +2,7 @@ import sys
 from dataclasses import dataclass
 from itertools import permutations as pr
 from pathlib import Path
+from typing import Generator
 
 import unicodedata
 
@@ -22,12 +23,16 @@ def clean(s: str) -> str:
 class Jardin:
     mot: str
 
-    def search(self, hint: str, refs):
-        ln = len(hint)
+    def search(self, mask: str, refs) -> Generator[str]:
+        """Build a generator of strings matching a mask.
+
+        "_" character is used as a one character wild char.
+        """
+        ln = len(mask)
         for t in sorted(set(pr(self.mot, ln))):
             if refs and (t not in refs):
                 continue
-            for i, c in enumerate(hint):
+            for i, c in enumerate(mask):
                 if c != '_' and c != t[i]:
                     break
             else:
